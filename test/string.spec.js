@@ -22,4 +22,13 @@ describe( 'string', function() {
       expect( string.required().validate( '' ).error ).to.be.instanceof( Error );
     });
   });
+
+  describe( 'email()', function() {
+    it( 'should return a new schema with email validation', function() {
+      var schema = string.email();
+      expect( schema.validate( '' ).error ).to.be.instanceof( Error );
+      expect( schema.validate( 'foo' ).error ).to.be.instanceof( Error );
+      expect( schema.validate( 'foo@foo.com' ).error ).to.equal( null );
+    });
+  });
 });
