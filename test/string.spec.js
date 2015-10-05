@@ -1,7 +1,7 @@
 import { string } from '../src';
 
 describe( 'string', function() {
-  describe( 'cast', function() {
+  describe( 'cast( any )', function() {
     it( 'should cast falsey values to empty string', function() {
       expect( string.cast() ).to.equal( '' );
       expect( string.cast( false ) ).to.equal( '' );
@@ -11,7 +11,7 @@ describe( 'string', function() {
     });
   });
 
-  describe( 'validate', function() {
+  describe( 'validate( any )', function() {
     it( 'should return an error if value is not a string', function() {
       expect( string.validate( 2 ).error ).to.be.instanceof( Error );
     });

@@ -1,7 +1,7 @@
 import { number, string, arrayOf, any } from '../src';
 
-describe( 'arrayOf', function() {
-  describe( 'cast', function() {
+describe( 'arrayOf( schema )', function() {
+  describe( 'cast( any )', function() {
     it( 'should cast non-array values to an empty array', function() {
       expect( arrayOf( any ).cast() ).to.eql( [] );
       expect( arrayOf( any ).cast( 2 ) ).to.eql( [] );
@@ -14,7 +14,7 @@ describe( 'arrayOf', function() {
     });
   });
 
-  describe( 'validate', function() {
+  describe( 'validate( any )', function() {
     it( 'should return an error if value is not an array', function() {
       expect( arrayOf( any ).validate( 2 ).error ).to.be.instanceof( Error );
     });

@@ -3,6 +3,10 @@ import pass from './pass';
 import fail from './fail';
 
 export default any.extend({
+  attributes: {
+    type: 'boolean'
+  },
+
   cast( value ) {
     if ( value === 'true' ) {
       value = true;
@@ -21,7 +25,7 @@ export default any.extend({
       value = false;
     }
     if ( typeof value !== 'boolean' ) {
-      return fail( 'must be a boolean', value );
+      return fail( `"${ this.attributes.label || 'value' }" must be a boolean` );
     }
     return pass( value );
   }

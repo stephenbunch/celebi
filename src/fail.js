@@ -1,8 +1,8 @@
-export default function( reason, value ) {
+export default function( reason ) {
   if ( reason instanceof Error ) {
-    return { error: reason, value };
+    return { error: reason, value: null };
   }
-  
+
   var error = new Error();
   error.name = 'ValidationError';
 
@@ -16,5 +16,5 @@ export default function( reason, value ) {
     error.errors = reason;
   }
 
-  return { error, value };
+  return { error, value: null };
 };

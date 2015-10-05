@@ -1,49 +1,33 @@
-export default {
-  name: 'any',
+import merge from 'lodash.merge';
 
-  key( label = 'value' ) {
-    return label;
+export default {
+  attributes: {
+    type: 'any'
+  },
+
+  label( name ) {
+    return this.extend({
+      attributes: {
+        label: name
+      }
+    });
   },
 
   cast( value ) {
     return value;
   },
 
-  factory() {
-    var schema = {};
-    for ( let key in this ) {
-      schema[ key ] = this[ key ];
-    }
-    return schema;
-  },
-
   validate( value ) {
     return { error: null, value };
   },
 
-  pluck() {},
+  pluck( selector, options ) {},
 
-  transform() {
+  transform( transform ) {
     return this;
   },
 
   extend( spec ) {
-    if ( typeof spec === 'function' ) {
-      let factory = ( ...args ) => {
-        var schema = this.extend( spec.apply( undefined, args ) );
-        schema.factory = factory;
-        return schema;
-      };
-      return factory;
-    } else {
-      var schema = {};
-      for ( let key in this ) {
-        schema[ key ] = this[ key ];
-      }
-      for ( let key in spec ) {
-        schema[ key ] = spec[ key ];
-      }
-      return schema;
-    }
+    return merge( {}, this, spec );
   }
 };

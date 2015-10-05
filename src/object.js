@@ -3,11 +3,12 @@ import flatten from './flatten';
 import pass from './pass';
 import fail from './fail';
 
-export default any.extend( keys => {
-  var paths = flatten( keys );
-
-  return {
-    name: 'object',
+export default function object( shape ) {
+  var paths = flatten( shape );
+  return any.extend({
+    attributes: {
+      type: 'object'
+    },
 
     cast( value, options ) {
       if ( value === null || typeof value !== 'object' ) {
@@ -19,15 +20,15 @@ export default any.extend( keys => {
       return value;
     },
 
-    validate( value, options ) {
+    validate( value, options = {} ) {
       if ( value === null || typeof value !== 'object' ) {
-        return fail( `"${ this.key() }" must be an object`, value );
+        return fail( `"${ this.attributes.label || 'value' }" must be an object` );
       }
       var errors = [];
-      var ret = {};
+      var retval = {};
       for ( let path of paths ) {
-        let key = path.value.key( path.selector );
-        let result = path.value.label( key ).validate( path.get( value ) );
+        let key = path.value.attributes.label || path.selector;
+        let result = path.value.label( key ).validate( path.get( value ), options );
         if ( result.error ) {
           errors.push({
             key,
@@ -37,13 +38,13 @@ export default any.extend( keys => {
             break;
           }
         } else {
-          path.set( ret, result.value );
+          path.set( retval, result.value );
         }
       }
       if ( errors.length > 0 ) {
-        return fail( errors, value );
+        return fail( errors );
       }
-      return pass( ret );
+      return pass( retval );
     },
 
     pluck( selector, options ) {
@@ -51,17 +52,20 @@ export default any.extend( keys => {
         if ( path.selector === selector ) {
           return path.value;
         } else if ( selector.startsWith( `${ path.selector }.` ) ) {
-          return path.value.pluck( selector.substr( path.selector.length + 1 ) );
+          return path.value.pluck(
+            selector.substr( path.selector.length + 1 ),
+            options
+          );
         }
       }
     },
 
     transform( transform ) {
-      var keys = {};
+      var shape = {};
       for ( let path of paths ) {
-        path.set( keys, transform( path.value.transform( transform ) ) );
+        path.set( shape, transform( path.value.transform( transform ) ) );
       }
-      return this.factory( keys );
+      return object( shape );
     }
-  };
-});
+  });
+};
