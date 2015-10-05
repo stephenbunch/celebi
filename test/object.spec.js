@@ -52,4 +52,25 @@ describe( 'object( shape )', function() {
       });
     });
   });
+
+  describe( 'transform( transform )', function() {
+    it( 'should transform the shape', function() {
+      var foo = object({
+        bar: number
+      });
+      foo = foo.transform( node => {
+        if ( node === number ) {
+          return string;
+        } else {
+          return node;
+        }
+      });
+      var x = foo.cast({
+        bar: 5
+      });
+      expect( x ).to.eql({
+        bar: '5'
+      });
+    });
+  });
 });

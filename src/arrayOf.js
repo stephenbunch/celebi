@@ -44,6 +44,10 @@ export default function arrayOf( t ) {
           return pass( retval );
         }
       }
+    },
+
+    transform( transform ) {
+      return arrayOf( transform( t ) );
     }
   });
 };

@@ -25,5 +25,9 @@ export default {
 
   extend( spec ) {
     return merge( {}, this, spec );
+  },
+
+  transform( transform ) {
+    return this;
   }
 };

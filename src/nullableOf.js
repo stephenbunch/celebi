@@ -21,6 +21,10 @@ export default function nullableOf( t ) {
 
     pluck( selector, options ) {
       return t.pluck( selector, options );
+    },
+
+    transform( transform ) {
+      return nullableOf( transform( t ) );
     }
   });
 };

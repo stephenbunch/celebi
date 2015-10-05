@@ -21,7 +21,6 @@ export default function schemaFromNode( value ) {
       });
     }
   } else if ( Array.isArray( value ) ) {
-    console.log( 'test' );
     value = arrayOf( schemaFromNode( value[0] || any ) );
   } else if ( !isSchema( value ) ) {
     throw new Error( `Expected node "${ selector }" to be a schema or function.` );

@@ -62,6 +62,14 @@ export default function object( shape ) {
           );
         }
       }
+    },
+
+    transform( transform ) {
+      var shape = {};
+      for ( let path of this.attributes.paths ) {
+        path.set( shape, transform( path.value.transform( transform ) ) );
+      }
+      return object( shape );
     }
   });
 };
