@@ -16,5 +16,17 @@ export default any.extend({
       return fail( `"${ this.attributes.label || 'value' }" must be a string` );
     }
     return pass( value );
+  },
+
+  required() {
+    var parent = this;
+    return this.extend({
+      validate( value, options ) {
+        if ( value === '' ) {
+          return fail( `"${ this.attributes.label || 'value'}" is required` );
+        }
+        return parent.validate( value, options );
+      }
+    });
   }
 });
