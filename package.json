@@ -1,7 +1,7 @@
 {
   "name": "celebi",
   "version": "0.1.0",
-  "description": "A library for building strongly-typed objects.",
+  "description": "A library for enforcing strongly-typed objects.",
   "main": "dist",
   "scripts": {
     "prepublish": "gulp"
