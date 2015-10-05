@@ -4,17 +4,17 @@ import pass from './pass';
 import fail from './fail';
 
 export default function object( shape ) {
-  var paths = flatten( shape );
   return any.extend({
     attributes: {
-      type: 'object'
+      type: 'object',
+      paths: flatten( shape )
     },
 
     cast( value, options ) {
       if ( value === null || typeof value !== 'object' ) {
         value = {};
       }
-      for ( let path of paths ) {
+      for ( let path of this.attributes.paths ) {
         path.set( value, path.value.cast( path.get( value ) ) );
       }
       return value;
@@ -26,7 +26,7 @@ export default function object( shape ) {
       }
       var errors = [];
       var retval = {};
-      for ( let path of paths ) {
+      for ( let path of this.attributes.paths ) {
         let key = path.value.attributes.label || path.selector;
         let result = path.value.label( key ).validate( path.get( value ), options );
         if ( result.error ) {
@@ -48,7 +48,7 @@ export default function object( shape ) {
     },
 
     pluck( selector, options ) {
-      for ( let path of paths ) {
+      for ( let path of this.attributes.paths ) {
         if ( path.selector === selector ) {
           return path.value;
         } else if ( selector.startsWith( `${ path.selector }.` ) ) {
@@ -58,14 +58,6 @@ export default function object( shape ) {
           );
         }
       }
-    },
-
-    transform( transform ) {
-      var shape = {};
-      for ( let path of paths ) {
-        path.set( shape, transform( path.value.transform( transform ) ) );
-      }
-      return object( shape );
     }
   });
 };

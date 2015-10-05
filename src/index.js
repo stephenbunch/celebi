@@ -8,6 +8,7 @@ import number from './number';
 import object from './object';
 import pass from './pass';
 import string from './string';
+import vm from './vm';
 
 export default {
   any,
@@ -19,5 +20,6 @@ export default {
   number,
   object,
   pass,
-  string
+  string,
+  vm
 };

@@ -23,10 +23,6 @@ export default {
 
   pluck( selector, options ) {},
 
-  transform( transform ) {
-    return this;
-  },
-
   extend( spec ) {
     return merge( {}, this, spec );
   }
