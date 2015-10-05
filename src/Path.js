@@ -1,4 +1,4 @@
-import overrideProperty from './util/overrideProperty';
+import overrideProperty from './_overrideProperty';
 
 export default class Path {
   constructor( selector, value ) {

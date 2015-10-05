@@ -9,8 +9,8 @@ describe( 'arrayOf( schema )', function() {
     });
 
     it( 'should cast each item according to the supplied schema', function() {
-      expect( arrayOf( number ).cast([ '5' ]) ).to.eql([ 5 ]);
-      expect( arrayOf( string ).cast([ 5 ]) ).to.eql([ '5' ]);
+      expect( arrayOf( number ).cast([ '5', '6' ]) ).to.eql([ 5, 6 ]);
+      expect( arrayOf( string ).cast([ 5, 6 ]) ).to.eql([ '5', '6' ]);
     });
   });
 

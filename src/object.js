@@ -1,13 +1,17 @@
 import any from './any';
+import fail from './fail';
 import flatten from './flatten';
 import pass from './pass';
-import fail from './fail';
+import Path from './Path';
+import schemaFromNode from './_schemaFromNode';
 
 export default function object( shape ) {
   return any.extend({
     attributes: {
       type: 'object',
-      paths: flatten( shape )
+      paths: flatten( shape ).map( ({ selector, value }) => {
+        return new Path( selector, schemaFromNode( value ) );
+      })
     },
 
     cast( value, options ) {

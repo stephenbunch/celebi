@@ -1,10 +1,11 @@
 import Path from './Path';
+import isSchema from './isSchema';
 
 export default function( object ) {
   var done = [];
   var todo = Object.keys( object ).map( key => {
     return {
-      path: key,
+      selector: key,
       value: object[ key ]
     };
   });
@@ -13,12 +14,13 @@ export default function( object ) {
     if (
       item.value &&
       typeof item.value === 'object' &&
-      typeof item.value.cast !== 'function'
+      !Array.isArray( item.value ) &&
+      !isSchema( item.value )
     ) {
       todo = todo.concat(
         Object.keys( item.value ).map( key => {
           return {
-            path: item.path + '.' + key,
+            selector: item.selector + '.' + key,
             value: item.value[ key ]
           };
         })
@@ -27,5 +29,5 @@ export default function( object ) {
       done.push( item );
     }
   }
-  return done.map( x => new Path( x.path, x.value ) );
+  return done;
 };
