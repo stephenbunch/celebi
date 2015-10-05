@@ -15,11 +15,20 @@ export default {
     });
   },
 
-  cast( value ) {
+  cast( value, options ) {
     return value;
   },
 
-  validate( value ) {
+  attempt( value, options ) {
+    var result = this.validate( value, options );
+    if ( result.error ) {
+      throw result.error;
+    } else {
+      return result.value;
+    }
+  },
+
+  validate( value, options ) {
     return { error: null, value };
   },
 

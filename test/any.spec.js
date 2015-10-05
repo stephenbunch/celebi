@@ -14,4 +14,14 @@ describe( 'any', function() {
       expect( schema.validate( 4 ).error ).to.be.instanceof( Error );
     });
   });
+
+  describe( 'attempt( value )', function() {
+    it( 'should attempt to cast the given value or throw an error', function() {
+      var schema = any.valid([ 1 ]);
+      expect( () => {
+        schema.attempt( 2 );
+      }).to.throw().property( 'name', 'ValidationError' );
+      expect( schema.attempt( 1 ) ).to.equal( 1 );
+    });
+  });
 });
