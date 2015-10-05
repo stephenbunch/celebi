@@ -17,7 +17,7 @@ export default any.extend({
 
   validate( value ) {
     if ( isNaN( value ) ) {
-      return fail( `"${ this.attributes.label || 'value' }" must be a number` );
+      return fail( this, 'must be a number' );
     }
     return pass( Number( value ) );
   }

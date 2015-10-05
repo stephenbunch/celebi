@@ -22,7 +22,7 @@ export default function arrayOf( t ) {
 
     validate( value, options = {} ) {
       if ( !Array.isArray( value ) ) {
-        return fail( `"${ this.attributes.label || 'value' }" must be an array` );
+        return fail( this, 'must be an array' );
       } else {
         let retval = [];
         let errors = [];
@@ -39,7 +39,7 @@ export default function arrayOf( t ) {
           }
         }
         if ( errors.length > 0 ) {
-          return fail( errors );
+          return fail( this, errors );
         } else {
           return pass( retval );
         }

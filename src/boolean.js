@@ -25,7 +25,7 @@ export default any.extend({
       value = false;
     }
     if ( typeof value !== 'boolean' ) {
-      return fail( `"${ this.attributes.label || 'value' }" must be a boolean` );
+      return fail( this, 'must be a boolean' );
     }
     return pass( value );
   }

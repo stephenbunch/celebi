@@ -1,4 +1,6 @@
+import fail from './fail';
 import merge from 'lodash.merge';
+import pass from './pass';
 
 export default {
   attributes: {
@@ -29,5 +31,17 @@ export default {
 
   transform( transform ) {
     return this;
+  },
+
+  valid( values ) {
+    return this.extend({
+      validate( value ) {
+        if ( values.indexOf( value ) === -1 ) {
+          return fail( this, 'is invalid' );
+        } else {
+          return pass( value );
+        }
+      }
+    });
   }
 };

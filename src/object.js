@@ -26,7 +26,7 @@ export default function object( shape ) {
 
     validate( value, options = {} ) {
       if ( value === null || typeof value !== 'object' ) {
-        return fail( `"${ this.attributes.label || 'value' }" must be an object` );
+        return fail( this, 'must be an object' );
       }
       var errors = [];
       var retval = {};

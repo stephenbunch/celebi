@@ -13,7 +13,7 @@ export default any.extend({
 
   validate( value ) {
     if ( typeof value !== 'string' ) {
-      return fail( `"${ this.attributes.label || 'value' }" must be a string` );
+      return fail( this, 'must be a string' );
     }
     return pass( value );
   },
@@ -23,7 +23,7 @@ export default any.extend({
     return this.extend({
       validate( value, options ) {
         if ( value === '' ) {
-          return fail( `"${ this.attributes.label || 'value'}" is required` );
+          return fail( this, 'is required' );
         }
         return parent.validate( value, options );
       }
