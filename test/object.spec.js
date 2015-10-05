@@ -73,4 +73,16 @@ describe( 'object( shape )', function() {
       });
     });
   });
+
+  describe( 'pluck( selector )', function() {
+    it( 'should get the schema at the specified path', function() {
+      var schema = object({
+        foo: {
+          bar: number
+        }
+      });
+      var bar = schema.pluck( 'foo.bar' );
+      expect( bar.cast( '2' ) ).to.equal( 2 );
+    });
+  });
 });
