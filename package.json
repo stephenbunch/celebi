@@ -1,6 +1,6 @@
 {
-  "name": "palkia",
-  "version": "0.1.1",
+  "name": "celebi",
+  "version": "0.1.0",
   "description": "A library for building strongly-typed objects.",
   "main": "dist",
   "scripts": {
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/stephenbunch/palkia"
+    "url": "https://github.com/stephenbunch/celebi"
   },
   "author": "Stephen Bunch",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/stephenbunch/palkia/issues"
+    "url": "https://github.com/stephenbunch/celebi/issues"
   },
-  "homepage": "https://github.com/stephenbunch/palkia",
+  "homepage": "https://github.com/stephenbunch/celebi",
   "devDependencies": {
     "arceus": "^0.2.0",
     "babel": "^5.8.23",
