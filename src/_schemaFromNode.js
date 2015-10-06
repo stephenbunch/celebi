@@ -1,6 +1,7 @@
 import any from './any';
 import arrayOf from './arrayOf';
 import boolean from './boolean';
+import date from './date';
 import number from './number';
 import isSchema from './isSchema';
 import string from './string';
@@ -15,6 +16,8 @@ export default function schemaFromNode( value ) {
       value = number;
     } else if ( value === Object ) {
       value = any;
+    } else if ( value === Date ) {
+      value = date;
     } else {
       value = any.extend({
         cast: value
