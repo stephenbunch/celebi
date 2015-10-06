@@ -30,10 +30,12 @@ export default function arrayOf( t ) {
           let item = value[ i ];
           let result = t.label( t.attributes.label || `item ${ i }`).validate( item, options );
           if ( result.error ) {
+            errors.push({
+              key: i,
+              message: result.error.message
+            });
             if ( options.abortEarly ) {
-              return result;
-            } else {
-              errors.push( result.error );
+              break;
             }
           } else {
             retval.push( result.value );
