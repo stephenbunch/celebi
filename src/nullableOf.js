@@ -1,13 +1,18 @@
 import any from './any';
 import pass from './pass';
 
-export default function nullableOf( t ) {
+export default function nullableOf( schema ) {
   return any.extend({
+    attributes: {
+      type: 'nullable',
+      schema: schema
+    },
+
     cast( value, options ) {
       if ( value === undefined || value === null ) {
         return null;
       } else {
-        return t.cast( value, options );
+        return schema.cast( value, options );
       }
     },
 
@@ -15,12 +20,12 @@ export default function nullableOf( t ) {
       if ( value === undefined || value === null ) {
         return pass( null );
       } else {
-        return t.validate( value, options );
+        return schema.validate( value, options );
       }
     },
 
     pluck( selector, options ) {
-      return t.pluck( selector, options );
+      return schema.pluck( selector, options );
     },
 
     transform( transform ) {

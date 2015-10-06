@@ -2,22 +2,23 @@ import any from './any';
 import pass from './pass';
 import fail from './fail';
 
-export default function arrayOf( t ) {
+export default function arrayOf( schema ) {
   return any.extend({
     attributes: {
-      type: 'array'
+      type: 'array',
+      schema: schema
     },
 
     cast( value ) {
       if ( Array.isArray( value ) ) {
-        return value.map( x => t.cast( x ) );
+        return value.map( x => schema.cast( x ) );
       } else {
         return [];
       }
     },
 
     pluck( selector, options ) {
-      return t.pluck( selector, options );
+      return schema.pluck( selector, options );
     },
 
     validate( value, options = {} ) {
@@ -28,7 +29,7 @@ export default function arrayOf( t ) {
         let errors = [];
         for ( let i = 0; i < value.length; i++ ) {
           let item = value[ i ];
-          let result = t.label( t.attributes.label || `item ${ i }`).validate( item, options );
+          let result = schema.label( schema.attributes.label || `item ${ i }`).validate( item, options );
           if ( result.error ) {
             errors.push({
               key: i,

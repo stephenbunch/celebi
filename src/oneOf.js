@@ -4,6 +4,11 @@ import fail from './fail';
 export default function oneOf( discriminator, schemas ) {
   var keys = Object.keys( schemas );
   return any.extend({
+    attributes: {
+      type: 'discriminator',
+      schemas: schemas
+    },
+
     pluck( selector, options = {} ) {
       if ( !options.discriminators || !options.discriminators[ selector ] ) {
         throw new Error( `A discriminator is required at "${ selector }".` );
