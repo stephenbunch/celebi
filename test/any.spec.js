@@ -24,4 +24,10 @@ describe( 'any', function() {
       expect( schema.attempt( 1 ) ).to.equal( 1 );
     });
   });
+
+  describe( 'cast( any )', function() {
+    it( 'should cast undefined to null', function() {
+      expect( any.cast() ).to.equal( null );
+    });
+  });
 });

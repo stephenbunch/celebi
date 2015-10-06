@@ -10,15 +10,18 @@ export default function vm( schema ) {
   } else {
     schema = shape( schema );
   }
+  schema = schema.transform( function transform( node ) {
+    if ( node.attributes.type === 'shape' ) {
+      return vm( node );
+    } else {
+      return node;
+    }
+  });
   return schema.extend({
     attributes: {
       type: 'vm',
       paths: schema.attributes.paths.map( path => {
-        if ( path.value.attributes.type === 'object' ) {
-          return new Path( path.selector, vm( path.value ) );
-        } else {
-          return new Path( path.selector, path.value );
-        }
+        return new Path( path.selector, path.value );
       })
     },
 

@@ -16,7 +16,11 @@ export default {
   },
 
   cast( value, options ) {
-    return value;
+    if ( value === undefined ) {
+      return null;
+    } else {
+      return value;
+    }
   },
 
   attempt( value, options ) {
