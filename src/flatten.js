@@ -2,6 +2,14 @@ import Path from './Path';
 import isSchema from './isSchema';
 
 export default function( object ) {
+  if (
+    typeof object !== 'object' ||
+    object === null ||
+    Array.isArray( object ) ||
+    isSchema( object )
+  ) {
+    throw new Error( 'Expected an object.' );
+  }
   var done = [];
   var todo = Object.keys( object ).map( key => {
     return {

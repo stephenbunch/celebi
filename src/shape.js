@@ -51,7 +51,7 @@ export default function shape( spec ) {
         }
       }
       if ( errors.length > 0 ) {
-        return fail( errors );
+        return fail( this, errors );
       }
       return pass( retval );
     },

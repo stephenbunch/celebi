@@ -53,7 +53,7 @@ export default function arrayOf( schema ) {
     },
 
     transform( transform ) {
-      return arrayOf( transform( t ) );
+      return arrayOf( transform( schema ) );
     }
   });
 };
