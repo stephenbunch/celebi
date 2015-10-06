@@ -30,7 +30,7 @@ export default function nullableOf( schema ) {
     },
 
     transform( transform ) {
-      return nullableOf( transform( t ) );
+      return nullableOf( transform( schema ) );
     }
   });
 };
