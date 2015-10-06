@@ -15,11 +15,9 @@ describe( 'string', function() {
     it( 'should return an error if value is not a string', function() {
       expect( string.validate( 2 ).error ).to.be.instanceof( Error );
     });
-  });
 
-  describe( 'required()', function() {
     it( 'should return an error if value is an empty string', function() {
-      expect( string.required().validate( '' ).error ).to.be.instanceof( Error );
+      expect( string.validate( '' ).error ).to.be.instanceof( Error );
     });
   });
 

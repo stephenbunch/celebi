@@ -15,23 +15,10 @@ export default any.extend({
   },
 
   validate( value ) {
-    if ( typeof value !== 'string' ) {
-      return fail( this, 'must be a string' );
+    if ( !value || typeof value !== 'string' ) {
+      return fail( this, 'must be a non-empty string' );
     }
     return pass( value );
-  },
-
-  required() {
-    var parent = this;
-    return this.extend({
-      validate( value, options ) {
-        if ( value === '' ) {
-          return fail( this, 'is required' );
-        } else {
-          return parent.validate( value, options );
-        }
-      }
-    });
   },
 
   email() {
