@@ -8,6 +8,7 @@ import isSchema from './isSchema';
 import nullableOf from './nullableOf';
 import number from './number';
 import object from './object';
+import oneOf from './oneOf';
 import pass from './pass';
 import Path from './Path';
 import string from './string';
@@ -24,6 +25,7 @@ export default {
   nullableOf,
   number,
   object,
+  oneOf,
   pass,
   Path,
   string,
