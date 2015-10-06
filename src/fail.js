@@ -10,7 +10,7 @@ export default function( schema, reason ) {
     error.message = `"${ schema.attributes.label || 'value' }" ${ reason }`;
   } else if ( Array.isArray( reason ) ) {
     error.message = `"${ schema.attributes.label || 'value' }" fails because [${ reason[0].message }]`;
-    error.errors = reason;
+    error.details = reason;
   } else {
     throw new Error( 'Expected failure reason to be a string, error, or an array.' );
   }
