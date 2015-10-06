@@ -26,8 +26,9 @@ export default function arrayOf( t ) {
       } else {
         let retval = [];
         let errors = [];
-        for ( let item of value ) {
-          let result = t.validate( item, options );
+        for ( let i = 0; i < value.length; i++ ) {
+          let item = value[ i ];
+          let result = t.label( t.attributes.label || `item ${ i }`).validate( item, options );
           if ( result.error ) {
             if ( options.abortEarly ) {
               return result;
