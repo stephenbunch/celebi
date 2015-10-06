@@ -6,5 +6,9 @@ describe( 'date', function() {
       var value = new Date();
       expect( date.cast( value ) ).to.equal( value );
     });
+
+    it( 'should cast undefined to a valid date', function() {
+      expect( isNaN( date.cast() ) ).to.equal( false );
+    });
   });
 });
