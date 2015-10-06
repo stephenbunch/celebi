@@ -10,6 +10,7 @@ import nullableOf from './nullableOf';
 import number from './number';
 import object from './object';
 import oneOf from './oneOf';
+import parse from './parse';
 import pass from './pass';
 import Path from './Path';
 import shape from './shape';
@@ -29,6 +30,7 @@ export default {
   number,
   object,
   oneOf,
+  parse,
   pass,
   Path,
   shape,

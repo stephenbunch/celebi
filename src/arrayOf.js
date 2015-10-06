@@ -1,8 +1,10 @@
 import any from './any';
+import parse from './parse';
 import pass from './pass';
 import fail from './fail';
 
 export default function arrayOf( schema ) {
+  schema = parse( schema );
   return any.extend({
     attributes: {
       type: 'array',

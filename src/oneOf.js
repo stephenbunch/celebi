@@ -1,8 +1,12 @@
 import any from './any';
 import fail from './fail';
+import parse from './parse';
 
 export default function oneOf( discriminator, schemas ) {
   var keys = Object.keys( schemas );
+  for ( let key in schemas ) {
+    schemas[ key ] = parse( schemas[ key ] );
+  }
   return any.extend({
     attributes: {
       type: 'discriminator',

@@ -3,14 +3,14 @@ import fail from './fail';
 import flatten from './flatten';
 import pass from './pass';
 import Path from './Path';
-import schemaFromNode from './_schemaFromNode';
+import parse from './parse';
 
 export default function shape( spec ) {
   return any.extend({
     attributes: {
       type: 'shape',
       paths: flatten( spec ).map( ({ selector, value }) => {
-        return new Path( selector, schemaFromNode( value ) );
+        return new Path( selector, parse( value ) );
       })
     },
 

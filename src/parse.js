@@ -5,9 +5,10 @@ import date from './date';
 import isSchema from './isSchema';
 import number from './number';
 import object from './object';
+import shape from './shape';
 import string from './string';
 
-export default function schemaFromNode( value ) {
+export default function parse( value ) {
   if ( typeof value === 'function' ) {
     if ( value === String ) {
       value = string;
@@ -25,9 +26,13 @@ export default function schemaFromNode( value ) {
       });
     }
   } else if ( Array.isArray( value ) ) {
-    value = arrayOf( schemaFromNode( value[0] || any ) );
+    value = arrayOf( parse( value[0] || any ) );
   } else if ( !isSchema( value ) ) {
-    throw new Error( `Expected node "${ selector }" to be a schema or function.` );
+    if ( typeof value === 'object' && value !== null ) {
+      value = shape( value );
+    } else {
+      throw new Error( 'Cannot parse schema value.' );
+    }
   }
   return value;
 };
