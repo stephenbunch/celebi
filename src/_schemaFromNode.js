@@ -2,8 +2,9 @@ import any from './any';
 import arrayOf from './arrayOf';
 import boolean from './boolean';
 import date from './date';
-import number from './number';
 import isSchema from './isSchema';
+import number from './number';
+import object from './object';
 import string from './string';
 
 export default function schemaFromNode( value ) {
@@ -15,7 +16,7 @@ export default function schemaFromNode( value ) {
     } else if ( value === Number ) {
       value = number;
     } else if ( value === Object ) {
-      value = any;
+      value = object;
     } else if ( value === Date ) {
       value = date;
     } else {

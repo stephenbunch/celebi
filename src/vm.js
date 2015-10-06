@@ -1,8 +1,14 @@
 import Path from './Path';
+import isSchema from './isSchema';
+import shape from './shape';
 
 export default function vm( schema ) {
-  if ( schema.attributes.type !== 'object' ) {
-    throw new Error( 'Schema must be an object.' );
+  if ( isSchema( schema ) ) {
+    if ( schema.attributes.type !== 'shape' ) {
+      throw new Error( 'Schema must be a shape.' );
+    }
+  } else {
+    schema = shape( schema );
   }
   return schema.extend({
     attributes: {

@@ -12,6 +12,7 @@ import object from './object';
 import oneOf from './oneOf';
 import pass from './pass';
 import Path from './Path';
+import shape from './shape';
 import string from './string';
 import vm from './vm';
 
@@ -30,6 +31,7 @@ export default {
   oneOf,
   pass,
   Path,
+  shape,
   string,
   vm
 };

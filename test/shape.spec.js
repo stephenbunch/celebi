@@ -1,9 +1,9 @@
-import { object, number, string } from '../src';
+import { shape, number, string } from '../src';
 
-describe( 'object( shape )', function() {
+describe( 'shape( spec )', function() {
   describe( 'cast( any )', function() {
     it( 'should cast undefined to an empty shape', function() {
-      var schema = object({
+      var schema = shape({
         foo: number,
         bar: {
           baz: string
@@ -18,10 +18,10 @@ describe( 'object( shape )', function() {
     });
 
     it( 'should cast sub-schemas', function() {
-      var a = object({
+      var a = shape({
         foo: number
       })
-      var b = object({
+      var b = shape({
         bar: a
       });
       expect( b.cast() ).to.eql({
@@ -32,7 +32,7 @@ describe( 'object( shape )', function() {
     });
 
     it( 'should auto-convert type functions to schemas', function() {
-      var schema = object({
+      var schema = shape({
         foo: Number,
         bar: () => 'baz'
       });
@@ -40,7 +40,7 @@ describe( 'object( shape )', function() {
         foo: 0,
         bar: 'baz'
       });
-      schema = object({
+      schema = shape({
         foo: [ String ]
       });
       expect(
@@ -55,7 +55,7 @@ describe( 'object( shape )', function() {
 
   describe( 'transform( transform )', function() {
     it( 'should transform the shape', function() {
-      var foo = object({
+      var foo = shape({
         bar: number
       });
       foo = foo.transform( node => {
@@ -76,7 +76,7 @@ describe( 'object( shape )', function() {
 
   describe( 'pluck( selector )', function() {
     it( 'should get the schema at the specified path', function() {
-      var schema = object({
+      var schema = shape({
         foo: {
           bar: number
         }

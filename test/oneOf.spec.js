@@ -1,13 +1,13 @@
-import { oneOf, object, string, number } from '../src';
+import { oneOf, shape, string, number } from '../src';
 
 describe( 'oneOf( discriminator, schemas )', function() {
   describe( 'cast( any )', function() {
     it( 'should cast according to the discriminator or return undefined', function() {
-      var a = object({
+      var a = shape({
         type: string,
         foo: number
       });
-      var b = object({
+      var b = shape({
         type: string,
         bar: number
       });
@@ -26,13 +26,13 @@ describe( 'oneOf( discriminator, schemas )', function() {
 
   describe( 'pluck( selector, options )', function() {
     it( 'should pluck the schema according to the specified value', function() {
-      var a = object({
+      var a = shape({
         type: string,
         foo: {
           bar: number
         }
       });
-      var b = object({
+      var b = shape({
         type: string,
         bar: {
           baz: number
