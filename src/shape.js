@@ -6,12 +6,17 @@ import Path from './Path';
 import parse from './parse';
 
 export default function shape( spec ) {
+  var paths = flatten( spec ).map( ({ selector, value }) => {
+    return new Path( selector, parse( value ) );
+  });
+  var pathsBySelector = {};
+  for ( let path of paths ) {
+    pathsBySelector[ path.selector ] = path;
+  }
   return any.extend({
     attributes: {
       type: 'shape',
-      paths: flatten( spec ).map( ({ selector, value }) => {
-        return new Path( selector, parse( value ) );
-      })
+      paths: paths
     },
 
     cast( value, options ) {
@@ -73,7 +78,34 @@ export default function shape( spec ) {
     },
 
     unknown() {
+      var parent = this;
+      return this.extend({
+        cast( value, options ) {
+          var obj = parent.cast( value, options );
+          var paths = flatten( value );
+          for ( let path of paths ) {
+            if ( !pathsBySelector[ path.selector ] ) {
+              path = new Path( path.selector );
+              path.set( obj, path.get( value ) );
+            }
+          }
+          return obj;
+        },
 
+        validate( value, options ) {
+          var result = parent.validate( value, options );
+          if ( result.value ) {
+            let paths = flatten( value );
+            for ( let path of paths ) {
+              if ( !pathsBySelector[ path.selector ] ) {
+                path = new Path( path.selector );
+                path.set( result.value, path.get( value ) );
+              }
+            }
+          }
+          return result;
+        }
+      });
     }
   });
 };

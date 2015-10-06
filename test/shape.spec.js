@@ -85,4 +85,28 @@ describe( 'shape( spec )', function() {
       expect( bar.cast( '2' ) ).to.equal( 2 );
     });
   });
+
+  describe( 'unknown()', function() {
+    it( 'should return a new shape that keeps unknown paths', function() {
+      var schema = shape({
+        foo: {
+          bar: number
+        }
+      }).unknown();
+      var obj = schema.cast({
+        foo: {
+          bar: '2',
+          baz: 3
+        },
+        qux: '4'
+      });
+      expect( obj ).to.eql({
+        foo: {
+          bar: 2,
+          baz: 3
+        },
+        qux: '4'
+      });
+    });
+  });
 });
