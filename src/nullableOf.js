@@ -3,6 +3,7 @@ import parse from './parse';
 import pass from './pass';
 
 export default function nullableOf( schema ) {
+  schema = parse( schema );
   return any.extend({
     attributes: {
       type: 'nullable',
