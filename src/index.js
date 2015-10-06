@@ -1,6 +1,7 @@
 import any from './any';
 import arrayOf from './arrayOf';
 import boolean from './boolean';
+import constant from './constant';
 import fail from './fail';
 import flatten from './flatten';
 import isSchema from './isSchema';
@@ -16,6 +17,7 @@ export default {
   any,
   arrayOf,
   boolean,
+  constant,
   fail,
   flatten,
   isSchema,
