@@ -23,4 +23,16 @@ describe( 'arrayOf( schema )', function() {
       expect( arrayOf( string ).validate([ 2 ]).error ).to.be.instanceof( Error );
     });
   });
+
+  describe( 'length( length )', function() {
+    it( 'should limit the length of the array', function() {
+      expect( arrayOf( number ).length( 2 ).cast([ '1', '2', '3' ]) ).to.eql([ 1, 2 ]);
+    });
+
+    it( 'should be transformable', function() {
+      var a = arrayOf( number ).length( 2 );
+      var b = a.transform( node => node === number ? string : number );
+      expect( b.cast([ 1, 2, 3 ]) ).to.eql([ '1', '2' ]);
+    });
+  });
 });

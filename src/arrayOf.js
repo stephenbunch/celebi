@@ -11,9 +11,9 @@ export default function arrayOf( schema ) {
       schema: schema
     },
 
-    cast( value ) {
+    cast( value, options ) {
       if ( Array.isArray( value ) ) {
-        return value.map( x => schema.cast( x ) );
+        return value.map( x => schema.cast( x, options ) );
       } else {
         return [];
       }
@@ -54,6 +54,29 @@ export default function arrayOf( schema ) {
 
     transform( transform ) {
       return arrayOf( transform( schema ) );
+    },
+
+    length( length ) {
+      var parent = this;
+      return this.extend({
+        cast( value, options ) {
+          return parent.cast( value, options ).slice( 0, 2 );
+        },
+
+        validate( value, options ) {
+          var result = parent.validate( value, options );
+          if ( result.error ) {
+            return result;
+          } else {
+            result.value = result.value.slice( 0, 2 );
+            return result;
+          }
+        },
+
+        transform( transform ) {
+          return parent.transform( transform ).length( length );
+        }
+      })
     }
   });
 };

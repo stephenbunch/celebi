@@ -108,5 +108,20 @@ describe( 'shape( spec )', function() {
         qux: '4'
       });
     });
+
+    it( 'should be transformable', function() {
+      var a = shape({
+        foo: number
+      }).unknown();
+      var b = a.transform( node => node === number ? string : number );
+      var obj = b.cast({
+        foo: 2,
+        bar: 3
+      });
+      expect( obj ).to.eql({
+        foo: '2',
+        bar: 3
+      });
+    });
   });
 });

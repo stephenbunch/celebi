@@ -10,7 +10,7 @@ export default function oneOf( discriminator, schemas ) {
   return any.extend({
     attributes: {
       type: 'discriminator',
-      schemas: schemas
+      schemas
     },
 
     pluck( selector, options = {} ) {
@@ -40,6 +40,14 @@ export default function oneOf( discriminator, schemas ) {
         return fail( this, `${ discriminator } must be one of ${ keys.join( ', ' ) }` );
       }
       return schemas[ value[ discriminator ] ].cast( value, options );
+    },
+
+    transform( transform ) {
+      var schemas = {};
+      for ( key in this.attributes.schemas ) {
+        schemas[ key ] = transform( this.attributes.schemas[ key ] );
+      }
+      return oneOf( discriminator, schemas );
     }
   });
 };

@@ -104,6 +104,10 @@ export default function shape( spec ) {
             }
           }
           return result;
+        },
+
+        transform( transform ) {
+          return parent.transform( transform ).unknown();
         }
       });
     }
