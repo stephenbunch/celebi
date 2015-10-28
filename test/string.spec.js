@@ -29,4 +29,12 @@ describe( 'string', function() {
       expect( schema.validate( 'foo@foo.com' ).error ).to.equal( null );
     });
   });
+
+  describe( 'lowerCase()', function() {
+    it( 'should return a new schema that casts to lower case', function() {
+      var schema = string.lowerCase();
+      expect( schema.cast( 'FoO' ) ).to.equal( 'foo' );
+      expect( schema.validate( 'FOO' ).value ).to.equal( 'foo' );
+    });
+  });
 });

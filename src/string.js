@@ -32,5 +32,21 @@ export default any.extend({
         }
       }
     });
+  },
+
+  lowerCase() {
+    var parent = this;
+    return this.extend({
+      cast( value ) {
+        return parent.cast( value ).toLowerCase();
+      },
+      validate( value, options ) {
+        var result = parent.validate( value, options );
+        if ( result.value ) {
+          result.value = result.value.toLowerCase();
+        }
+        return result;
+      }
+    })
   }
 });
