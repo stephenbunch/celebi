@@ -48,5 +48,21 @@ export default any.extend({
         return result;
       }
     })
+  },
+
+  trim() {
+    var parent = this;
+    return this.extend({
+      cast( value ) {
+        return parent.cast( value ).trim();
+      },
+      validate( value, options ) {
+        var result = parent.validate( value, options );
+        if ( result.value ) {
+          result.value = result.value.trim();
+        }
+        return result;
+      }
+    })
   }
 });

@@ -31,10 +31,18 @@ describe( 'string', function() {
   });
 
   describe( 'lowerCase()', function() {
-    it( 'should return a new schema that casts to lower case', function() {
+    it( 'should convert to lower case', function() {
       var schema = string.lowerCase();
       expect( schema.cast( 'FoO' ) ).to.equal( 'foo' );
       expect( schema.validate( 'FOO' ).value ).to.equal( 'foo' );
+    });
+  });
+
+  describe( 'trim()', function() {
+    it( 'should trim the value', function() {
+      var schema = string.trim();
+      expect( schema.cast( '  foo  ' ) ).to.equal( 'foo' );
+      expect( schema.validate( '  foo  ' ).value ).to.equal( 'foo' );
     });
   });
 });
