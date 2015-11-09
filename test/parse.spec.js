@@ -18,4 +18,8 @@ describe( 'parse( value )', function() {
   it( 'should parse arrays', function() {
     expect( parse([ Number ]).cast([ '2', '5' ]) ).to.eql([ 2, 5 ]);
   });
+
+  it( 'should parse function types', function() {
+    expect( parse( Function ).cast( x => x )( 2 ) ).to.equal( 2 );
+  });
 });

@@ -2,6 +2,7 @@ import any from './any';
 import arrayOf from './arrayOf';
 import boolean from './boolean';
 import date from './date';
+import func from './func';
 import isSchema from './isSchema';
 import number from './number';
 import object from './object';
@@ -20,6 +21,8 @@ export default function parse( value ) {
       value = object;
     } else if ( value === Date ) {
       value = date;
+    } else if ( value === Function ) {
+      value = func;
     } else {
       value = any.extend({
         cast: value

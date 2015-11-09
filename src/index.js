@@ -5,6 +5,7 @@ import constant from './constant';
 import date from './date';
 import fail from './fail';
 import flatten from './flatten';
+import func from './func';
 import isSchema from './isSchema';
 import nullableOf from './nullableOf';
 import number from './number';
@@ -25,6 +26,7 @@ export default {
   date,
   fail,
   flatten,
+  func,
   isSchema,
   nullableOf,
   number,
