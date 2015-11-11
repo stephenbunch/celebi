@@ -27,5 +27,20 @@ describe( 'vm', function() {
       expect( obj.foo.bar ).to.equal( 4 );
       expect( obj.baz.qux ).to.equal( 5 );
     });
+
+    it( 'should work with subpaths', function() {
+      var schema = vm({
+        foo: {
+          bar: {
+            baz: number
+          }
+        }
+      });
+      var obj = schema.cast();
+      obj.foo.bar = {
+        baz: '2'
+      };
+      expect( obj.foo.bar.baz ).to.equal( 2 );
+    });
   });
 });

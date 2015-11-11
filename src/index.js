@@ -16,6 +16,7 @@ import pass from './pass';
 import Path from './Path';
 import shape from './shape';
 import string from './string';
+import transformObject from './transformObject';
 import vm from './vm';
 
 export default {
@@ -37,5 +38,6 @@ export default {
   Path,
   shape,
   string,
+  transformObject,
   vm
 };

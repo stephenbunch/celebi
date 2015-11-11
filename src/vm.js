@@ -1,6 +1,7 @@
 import Path from './Path';
 import isSchema from './isSchema';
 import shape from './shape';
+import transformObject from './transformObject';
 
 export default function vm( schema ) {
   if ( isSchema( schema ) ) {
@@ -8,7 +9,7 @@ export default function vm( schema ) {
       throw new Error( 'Schema must be a shape.' );
     }
   } else {
-    schema = shape( schema );
+    schema = transformObject( schema, shape );
   }
   schema = schema.transform( function transform( node ) {
     if ( node.attributes.type === 'shape' ) {
