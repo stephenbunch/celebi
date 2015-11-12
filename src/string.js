@@ -53,8 +53,8 @@ export default any.extend({
   trim() {
     var parent = this;
     return this.extend({
-      cast( value ) {
-        return parent.cast( value ).trim();
+      cast( value, options ) {
+        return parent.cast( value, options ).trim();
       },
       validate( value, options ) {
         var result = parent.validate( value, options );
@@ -69,19 +69,40 @@ export default any.extend({
   default( defaultValue ) {
     var parent = this;
     return this.extend({
-      cast( value ) {
+      cast( value, options ) {
         if ( !value ) {
-          return parent.cast( defaultValue );
+          return parent.cast( defaultValue, options );
         } else {
-          return parent.cast( value );
+          return parent.cast( value, options );
         }
       },
 
-      validate( value ) {
+      validate( value, options ) {
         if ( !value ) {
-          return parent.cast( defaultValue );
+          return parent.validate( defaultValue, options );
         } else {
-          return parent.cast( value );
+          return parent.validate( value, options );
+        }
+      }
+    });
+  },
+
+  optional() {
+    var parent = this;
+    return this.extend({
+      cast( value, options ) {
+        if ( !value ) {
+          return;
+        } else {
+          return parent.cast( value, options );
+        }
+      },
+
+      validate( value, options ) {
+        if ( !value ) {
+          return pass();
+        } else {
+          return parent.validate( value, options );
         }
       }
     });

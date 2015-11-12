@@ -57,4 +57,14 @@ describe( 'string', function() {
       expect( schema.cast( 'bar' ) ).to.equal( 'bar' );
     });
   });
+
+  describe( 'optional()', function() {
+    it( 'false values should return undefined', function() {
+      var schema = string.optional();
+      expect( schema.cast() ).to.equal( undefined );
+      expect( schema.cast( '' ) ).to.equal( undefined );
+      expect( schema.cast( false ) ).to.equal( undefined );
+      expect( schema.cast( 0 ) ).to.equal( undefined );
+    });
+  });
 });
