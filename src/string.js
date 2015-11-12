@@ -64,5 +64,26 @@ export default any.extend({
         return result;
       }
     })
+  },
+
+  default( defaultValue ) {
+    var parent = this;
+    return this.extend({
+      cast( value ) {
+        if ( !value ) {
+          return parent.cast( defaultValue );
+        } else {
+          return parent.cast( value );
+        }
+      },
+
+      validate( value ) {
+        if ( !value ) {
+          return parent.cast( defaultValue );
+        } else {
+          return parent.cast( value );
+        }
+      }
+    });
   }
 });

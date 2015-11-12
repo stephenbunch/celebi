@@ -56,5 +56,25 @@ export default {
         }
       }
     });
+  },
+
+  default( defaultValue ) {
+    var parent = this;
+    return this.extend({
+      cast( value ) {
+        if ( value === null || value === undefined ) {
+          return parent.cast( defaultValue );
+        } else {
+          return parent.cast( value );
+        }
+      },
+      validate( value ) {
+        if ( value === null || value === undefined ) {
+          return parent.validate( defaultValue );
+        } else {
+          return parent.validate( value );
+        }
+      }
+    })
   }
 };

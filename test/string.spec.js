@@ -45,4 +45,16 @@ describe( 'string', function() {
       expect( schema.validate( '  foo  ' ).value ).to.equal( 'foo' );
     });
   });
+
+  describe( 'default( value )', function() {
+    it( 'should return default value if value is falsey', function() {
+      var schema = string.default( 'foo' );
+      expect( schema.cast() ).to.equal( 'foo' );
+      expect( schema.cast( '' ) ).to.equal( 'foo' );
+      expect( schema.cast( false ) ).to.equal( 'foo' );
+      expect( schema.cast( null ) ).to.equal( 'foo' );
+      expect( schema.cast( 0 ) ).to.equal( 'foo' );
+      expect( schema.cast( 'bar' ) ).to.equal( 'bar' );
+    });
+  });
 });

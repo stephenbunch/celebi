@@ -30,4 +30,13 @@ describe( 'any', function() {
       expect( any.cast() ).to.equal( null );
     });
   });
+
+  describe( 'default( value )', function() {
+    it( 'should return default value if value is null or undefined', function() {
+      var schema = any.default( 'foo' );
+      expect( schema.cast() ).to.equal( 'foo' );
+      expect( schema.cast( null ) ).to.equal( 'foo' );
+      expect( schema.cast( false ) ).to.equal( false );
+    });
+  });
 });
