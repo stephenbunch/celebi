@@ -5,14 +5,8 @@ require( 'babel/register' )({
 var gulp = require( 'gulp' );
 var arceus = require( 'arceus' );
 
-gulp.task( 'make:src', function() {
-  return arceus.js.babelify( 'src/**/*', 'dist' );
-});
-
 gulp.task( 'make', function() {
-  return arceus.util.gulpAsync( gulp, 'clean', [ 'make:src' ] ).then( function() {
-    return arceus.util.touchFileAsync( 'package.json' );
-  });
+  return arceus.js.babelify( 'src/**/*', 'dist' );
 });
 
 gulp.task( 'clean', function() {
@@ -30,9 +24,9 @@ gulp.task( 'test:browser', function() {
 gulp.task( 'test', [ 'test:node', 'test:browser' ] );
 
 gulp.task( 'watch', function() {
-  arceus.util.gulpWatch( gulp, 'src/**/*', 'make' );
+  arceus.js.babelifyWatch( 'src/**/*', 'dist' );
 });
 
 gulp.task( 'default', function() {
-  return arceus.util.gulpAsync( gulp, 'make' );
+  return arceus.util.gulpAsync( gulp, 'clean', 'make' );
 });
