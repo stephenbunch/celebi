@@ -3,6 +3,10 @@ import fail from './fail';
 import pass from './pass';
 
 export default any.extend({
+  attributes: {
+    type: 'function'
+  },
+
   cast( value ) {
     if ( typeof value === 'function' ) {
       return value;

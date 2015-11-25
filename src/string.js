@@ -90,6 +90,10 @@ export default any.extend({
   optional() {
     var parent = this;
     return this.extend({
+      attributes: {
+        optional: true
+      },
+
       cast( value, options ) {
         if ( !value ) {
           return;

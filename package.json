@@ -1,6 +1,6 @@
 {
   "name": "celebi",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "A library for enforcing strongly-typed objects.",
   "main": "dist",
   "scripts": {
@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/stephenbunch/celebi",
   "devDependencies": {
-    "arceus": "^0.3.1",
+    "arceus": "^0.3.4",
     "babel": "^5.8.23",
     "gulp": "^3.9.0"
   },

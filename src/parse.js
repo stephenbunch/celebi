@@ -34,7 +34,7 @@ export default function parse( value ) {
     if ( typeof value === 'object' && value !== null ) {
       value = shape( value );
     } else {
-      throw new Error( 'Cannot parse schema value.' );
+      throw new Error( `Cannot parse schema value '${ value }' (${ typeof value }).` );
     }
   }
   return value;
