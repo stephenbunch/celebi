@@ -1,4 +1,3 @@
-import Path from './Path';
 import isSchema from './isSchema';
 import shape from './shape';
 import transformObject from './transformObject';
@@ -9,7 +8,7 @@ export default function vm( schema ) {
       throw new Error( 'Schema must be a shape.' );
     }
   } else {
-    schema = transformObject( schema, shape );
+    schema = shape( schema );
   }
   schema = schema.transform( function transform( node ) {
     if ( node.attributes.type === 'shape' ) {
@@ -21,28 +20,26 @@ export default function vm( schema ) {
   return schema.extend({
     attributes: {
       type: 'vm',
-      paths: schema.attributes.paths.map( path => {
-        return new Path( path.selector, path.value );
-      })
+      keys: schema.attributes.keys
     },
 
-    cast( value, options ) {
-      if ( value === null || typeof value !== 'object' ) {
-        value = {};
+    cast( source, options ) {
+      if ( source === null || typeof source !== 'object' ) {
+        source = {};
       }
-      var retval = {};
-      for ( let path of this.attributes.paths ) {
-        let pathValue = path.value.cast( path.get( value ) );
-        path.override( retval, {
-          initialize: false,
-          persist: true,
-          get: () => pathValue,
+      var model = {};
+      for ( let key in this.attributes.keys ) {
+        let _value = this.attributes.keys[ key ].cast( source[ key ] );
+        Object.defineProperty( model, key, {
+          enumerable: true,
+          configurable: true,
+          get: () => _value,
           set: value => {
-            pathValue = path.value.cast( value );
+            _value = this.attributes.keys[ key ].cast( value );
           }
         });
       }
-      return retval;
+      return model;
     }
   });
 };

@@ -59,7 +59,7 @@ describe( 'shape( spec )', function() {
         bar: number
       });
       foo = foo.transform( node => {
-        if ( node === number ) {
+        if ( node.attributes.type === 'number' ) {
           return string;
         } else {
           return node;
@@ -113,7 +113,7 @@ describe( 'shape( spec )', function() {
       var a = shape({
         foo: number
       }).unknown();
-      var b = a.transform( node => node === number ? string : number );
+      var b = a.transform( node => node.attributes.type === 'number' ? string : number );
       var obj = b.cast({
         foo: 2,
         bar: 3

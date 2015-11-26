@@ -1,115 +1,108 @@
 import any from './any';
 import fail from './fail';
-import flatten from './flatten';
 import pass from './pass';
-import Path from './Path';
 import parse from './parse';
+import transformObject from './transformObject';
 
 export default function shape( spec ) {
-  var paths = flatten( spec ).map( ({ selector, value }) => {
-    return new Path( selector, parse( value ) );
-  });
-  var pathsBySelector = {};
-  for ( let path of paths ) {
-    pathsBySelector[ path.selector ] = path;
-  }
-  return any.extend({
-    attributes: {
-      type: 'shape',
-      paths: paths
-    },
+  return transformObject( spec, function( spec ) {
+    for ( let key in spec ) {
+      spec[ key ] = parse( spec[ key ] );
+    }
+    return any.extend({
+      attributes: {
+        type: 'shape',
+        keys: spec
+      },
 
-    cast( value, options ) {
-      if ( value === null || typeof value !== 'object' ) {
-        value = {};
-      }
-      for ( let path of this.attributes.paths ) {
-        path.set( value, path.value.cast( path.get( value ) ) );
-      }
-      return value;
-    },
-
-    validate( value, options = {} ) {
-      if ( value === null || typeof value !== 'object' ) {
-        return fail( this, 'must be an object' );
-      }
-      var errors = [];
-      var retval = {};
-      for ( let path of this.attributes.paths ) {
-        let key = path.value.attributes.label || path.selector;
-        let result = path.value.label( key ).validate( path.get( value ), options );
-        if ( result.error ) {
-          errors.push({
-            key,
-            message: result.error.message
-          });
-          if ( options.abortEarly ) {
-            break;
-          }
-        } else {
-          path.set( retval, result.value );
+      cast( value, options ) {
+        if ( value === null || typeof value !== 'object' ) {
+          value = {};
         }
-      }
-      if ( errors.length > 0 ) {
-        return fail( this, errors );
-      }
-      return pass( retval );
-    },
-
-    pluck( selector, options ) {
-      for ( let path of this.attributes.paths ) {
-        if ( path.selector === selector ) {
-          return path.value;
-        } else if ( selector.startsWith( `${ path.selector }.` ) ) {
-          return path.value.pluck(
-            selector.substr( path.selector.length + 1 ),
-            options
-          );
+        for ( let key in this.attributes.keys ) {
+          value[ key ] = this.attributes.keys[ key ].cast( value[ key ] );
         }
-      }
-    },
+        return value;
+      },
 
-    transform( transform ) {
-      var spec = {};
-      for ( let path of this.attributes.paths ) {
-        path.set( spec, transform( path.value.transform( transform ) ) );
-      }
-      return shape( spec );
-    },
-
-    unknown() {
-      var parent = this;
-      return this.extend({
-        cast( value, options ) {
-          var obj = parent.cast( value, options );
-          var paths = flatten( value );
-          for ( let path of paths ) {
-            if ( !pathsBySelector[ path.selector ] ) {
-              path = new Path( path.selector );
-              path.set( obj, path.get( value ) );
+      validate( value, options = {} ) {
+        if ( value === null || typeof value !== 'object' ) {
+          return fail( this, 'must be an object' );
+        }
+        var errors = [];
+        var retval = {};
+        for ( let key in this.attributes.keys ) {
+          let label = this.attributes.keys[ key ].attributes.label || key;
+          let result = this.attributes.keys[ key ].label( label ).validate( value[ key ], options );
+          if ( result.error ) {
+            errors.push({
+              key: key,
+              message: result.error.message
+            });
+            if ( options.abortEarly ) {
+              break;
             }
+          } else {
+            retval[ key ] = result.value;
           }
-          return obj;
-        },
+        }
+        if ( errors.length > 0 ) {
+          return fail( this, errors );
+        }
+        return pass( retval );
+      },
 
-        validate( value, options ) {
-          var result = parent.validate( value, options );
-          if ( result.value ) {
-            let paths = flatten( value );
-            for ( let path of paths ) {
-              if ( !pathsBySelector[ path.selector ] ) {
-                path = new Path( path.selector );
-                path.set( result.value, path.get( value ) );
+      pluck( selector, options ) {
+        for ( let key in this.attributes.keys ) {
+          if ( key === selector ) {
+            return this.attributes.keys[ key ];
+          } else if ( selector.startsWith( `${ key }.` ) ) {
+            return this.attributes.keys[ key ].pluck(
+              selector.substr( key.length + 1 ),
+              options
+            );
+          }
+        }
+      },
+
+      transform( transform ) {
+        var spec = {};
+        for ( let key in this.attributes.keys ) {
+          spec[ key ] = transform( this.attributes.keys[ key ].transform( transform ) );
+        }
+        return shape( spec );
+      },
+
+      unknown() {
+        var parent = this;
+        return this.extend({
+          cast( value, options ) {
+            var obj = parent.cast( value, options );
+            for ( let key in value ) {
+              if ( !this.attributes.keys[ key ] ) {
+                obj[ key ] = value[ key ];
               }
             }
-          }
-          return result;
-        },
+            return obj;
+          },
 
-        transform( transform ) {
-          return parent.transform( transform ).unknown();
-        }
-      });
-    }
+          validate( value, options ) {
+            var result = parent.validate( value, options );
+            if ( result.value ) {
+              for ( let key in value ) {
+                if ( !this.attributes.keys[ key ] ) {
+                  result.value[ key ] = value[ key ];
+                }
+              }
+            }
+            return result;
+          },
+
+          transform( transform ) {
+            return parent.transform( transform ).unknown();
+          }
+        });
+      }
+    });
   });
 };
