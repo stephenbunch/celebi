@@ -28,7 +28,7 @@ export default any.extend({
         if ( !email.test( value ) ) {
           return fail( this, 'must be an email' );
         } else {
-          return parent.validate( value, options );
+          return parent.validate.call( this, value, options );
         }
       }
     });
@@ -38,12 +38,28 @@ export default any.extend({
     var parent = this;
     return this.extend({
       cast( value ) {
-        return parent.cast( value ).toLowerCase();
+        return parent.cast.call( this, value ).toLowerCase();
       },
       validate( value, options ) {
-        var result = parent.validate( value, options );
+        var result = parent.validate.call( this, value, options );
         if ( result.value ) {
           result.value = result.value.toLowerCase();
+        }
+        return result;
+      }
+    })
+  },
+
+  upperCase() {
+    var parent = this;
+    return this.extend({
+      cast( value ) {
+        return parent.cast.call( this, value ).toUpperCase();
+      },
+      validate( value, options ) {
+        var result = parent.validate.call( this, value, options );
+        if ( result.value ) {
+          result.value = result.value.toUpperCase();
         }
         return result;
       }
@@ -54,10 +70,10 @@ export default any.extend({
     var parent = this;
     return this.extend({
       cast( value, options ) {
-        return parent.cast( value, options ).trim();
+        return parent.cast.call( this, value, options ).trim();
       },
       validate( value, options ) {
-        var result = parent.validate( value, options );
+        var result = parent.validate.call( this, value, options );
         if ( result.value ) {
           result.value = result.value.trim();
         }
@@ -71,17 +87,17 @@ export default any.extend({
     return this.extend({
       cast( value, options ) {
         if ( !value ) {
-          return parent.cast( defaultValue, options );
+          return parent.cast.call( this, defaultValue, options );
         } else {
-          return parent.cast( value, options );
+          return parent.cast.call( this, value, options );
         }
       },
 
       validate( value, options ) {
         if ( !value ) {
-          return parent.validate( defaultValue, options );
+          return parent.validate.call( this, defaultValue, options );
         } else {
-          return parent.validate( value, options );
+          return parent.validate.call( this, value, options );
         }
       }
     });
@@ -98,7 +114,7 @@ export default any.extend({
         if ( !value ) {
           return;
         } else {
-          return parent.cast( value, options );
+          return parent.cast.call( this, value, options );
         }
       },
 
@@ -106,7 +122,7 @@ export default any.extend({
         if ( !value ) {
           return pass();
         } else {
-          return parent.validate( value, options );
+          return parent.validate.call( this, value, options );
         }
       }
     });

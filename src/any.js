@@ -1,5 +1,5 @@
 import fail from './fail';
-import merge from 'lodash.merge';
+import merge from './merge';
 import pass from './pass';
 
 export default {
@@ -36,7 +36,9 @@ export default {
     return { error: null, value };
   },
 
-  pluck( selector, options ) {},
+  path( selector ) {
+    return this;
+  },
 
   extend( spec ) {
     return merge( {}, this, spec );

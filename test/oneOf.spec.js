@@ -24,8 +24,8 @@ describe( 'oneOf( discriminator, schemas )', function() {
     });
   });
 
-  describe( 'pluck( selector, options )', function() {
-    it( 'should pluck the schema according to the specified value', function() {
+  describe( 'path( selector )', function() {
+    it( 'should get the schema at the specified path', function() {
       var a = shape({
         type: string,
         foo: {
@@ -39,11 +39,7 @@ describe( 'oneOf( discriminator, schemas )', function() {
         }
       });
       var c = oneOf( 'type', { a, b } );
-      var schema = c.pluck( 'bar.baz', {
-        discriminators: {
-          'bar.baz': 'b'
-        }
-      });
+      var schema = c.path( 'b.bar.baz' );
       expect( schema.cast( '2' ) ).to.equal( 2 );
     });
   });

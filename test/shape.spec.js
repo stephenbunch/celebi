@@ -74,15 +74,41 @@ describe( 'shape( spec )', function() {
     });
   });
 
-  describe( 'pluck( selector )', function() {
+  describe( 'path( selector )', function() {
     it( 'should get the schema at the specified path', function() {
       var schema = shape({
         foo: {
           bar: number
         }
       });
-      var bar = schema.pluck( 'foo.bar' );
+      var bar = schema.path( 'foo.bar' );
       expect( bar.cast( '2' ) ).to.equal( 2 );
+    });
+  });
+
+  describe( 'without( ...keys )', function() {
+    it( 'should return a new shape without the specified fields', function() {
+      var schema = shape({
+        foo: number,
+        bar: number,
+        baz: number
+      }).without( 'bar', 'baz' );
+      expect( schema.cast({ foo: '2', bar: '3', baz: '5' }) ).to.eql({
+        foo: 2
+      });
+    });
+  });
+
+  describe( 'pluck( ...keys )', function() {
+    it( 'should return a new shape with only the specified fields', function() {
+      var schema = shape({
+        foo: number,
+        bar: number,
+        baz: number
+      }).pluck( 'foo' );
+      expect( schema.cast({ foo: '2', bar: '3', baz: '5' }) ).to.eql({
+        foo: 2
+      });
     });
   });
 

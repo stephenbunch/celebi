@@ -26,8 +26,8 @@ export default function nullableOf( schema ) {
       }
     },
 
-    pluck( selector, options ) {
-      return schema.pluck( selector, options );
+    path( selector ) {
+      return schema.path( selector );
     },
 
     transform( transform ) {

@@ -19,8 +19,8 @@ export default function arrayOf( schema ) {
       }
     },
 
-    pluck( selector, options ) {
-      return schema.pluck( selector, options );
+    path( selector ) {
+      return schema.path( selector );
     },
 
     validate( value, options = {} ) {

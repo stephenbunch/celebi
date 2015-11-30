@@ -3,7 +3,6 @@ import fail from './fail';
 import parse from './parse';
 
 export default function oneOf( discriminator, schemas ) {
-  var keys = Object.keys( schemas );
   for ( let key in schemas ) {
     schemas[ key ] = parse( schemas[ key ] );
   }
@@ -13,14 +12,13 @@ export default function oneOf( discriminator, schemas ) {
       schemas
     },
 
-    pluck( selector, options = {} ) {
-      if ( !options.discriminators || !options.discriminators[ selector ] ) {
-        throw new Error( `A discriminator is required at "${ selector }".` );
-      } else if ( !schemas[ options.discriminators[ selector ] ] ) {
+    path( selector ) {
+      var [ discriminator, ...rest ] = selector.split( '.' );
+      if ( !schemas[ discriminator ] ) {
+        let keys = Object.keys( this.attributes.schemas );
         throw new Error( `Discriminator at "${ selector }" must be one of ${ keys.join( ', ' ) }` );
-      } else {
-        return schemas[ options.discriminators[ selector ] ].pluck( selector, options );
       }
+      return schemas[ discriminator ].path( rest.join( '.' ) );
     },
 
     cast( value, options ) {
@@ -37,6 +35,7 @@ export default function oneOf( discriminator, schemas ) {
         return fail( this, 'must be an object' );
       }
       if ( !schemas[ value[ discriminator ] ] ) {
+        let keys = Object.keys( this.attributes.schemas );
         return fail( this, `${ discriminator } must be one of ${ keys.join( ', ' ) }` );
       }
       return schemas[ value[ discriminator ] ].cast( value, options );

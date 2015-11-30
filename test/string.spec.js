@@ -38,6 +38,14 @@ describe( 'string', function() {
     });
   });
 
+  describe( 'upperCase()', function() {
+    it( 'should convert to lower case', function() {
+      var schema = string.upperCase();
+      expect( schema.cast( 'foo' ) ).to.equal( 'FOO' );
+      expect( schema.validate( 'foo' ).value ).to.equal( 'FOO' );
+    });
+  });
+
   describe( 'trim()', function() {
     it( 'should trim the value', function() {
       var schema = string.trim();

@@ -3,8 +3,17 @@ import fail from './fail';
 import pass from './pass';
 import parse from './parse';
 import transformObject from './transformObject';
+import isSchema from './isSchema';
+import isPlainObject from './_isPlainObject';
 
 export default function shape( spec ) {
+  if ( isSchema( spec ) ) {
+    if ( spec.attributes.type === 'shape' ) {
+      return shape( spec.keys );
+    } else {
+      throw new Error( 'Argument must be a plain object or a shape schema.' );
+    }
+  }
   return transformObject( spec, function( spec ) {
     for ( let key in spec ) {
       spec[ key ] = parse( spec[ key ] );
@@ -16,13 +25,14 @@ export default function shape( spec ) {
       },
 
       cast( value, options ) {
-        if ( value === null || typeof value !== 'object' ) {
+        var retval = {};
+        if ( !isPlainObject( value ) ) {
           value = {};
         }
         for ( let key in this.attributes.keys ) {
-          value[ key ] = this.attributes.keys[ key ].cast( value[ key ] );
+          retval[ key ] = this.attributes.keys[ key ].cast( value[ key ] );
         }
-        return value;
+        return retval;
       },
 
       validate( value, options = {} ) {
@@ -52,17 +62,48 @@ export default function shape( spec ) {
         return pass( retval );
       },
 
-      pluck( selector, options ) {
+      path( selector ) {
+        var [ top, ...rest ] = selector.split( '.' );
         for ( let key in this.attributes.keys ) {
-          if ( key === selector ) {
-            return this.attributes.keys[ key ];
-          } else if ( selector.startsWith( `${ key }.` ) ) {
-            return this.attributes.keys[ key ].pluck(
-              selector.substr( key.length + 1 ),
-              options
-            );
+          if ( key === top ) {
+            return this.attributes.keys[ key ].path( rest.join( '.' ) );
           }
         }
+        throw new Error( `Path "${ selector }" is invalid.` );
+      },
+
+      without( ...keys ) {
+        var spec = {};
+        for ( let key in this.attributes.keys ) {
+          if ( keys.indexOf( key ) === -1 ) {
+            spec[ key ] = this.attributes.keys[ key ];
+          } else {
+            // delete the key
+            spec[ key ] = undefined;
+          }
+        }
+        return this.extend({
+          attributes: {
+            keys: spec
+          }
+        });
+      },
+
+      pluck( ...keys ) {
+        var spec = {};
+        for ( let key in this.attributes.keys ) {
+          if ( keys.indexOf( key ) > -1 ) {
+            spec[ key ] = this.attributes.keys[ key ];
+          } else {
+            // delete the key
+            spec[ key ] = undefined;
+          }
+        }
+        return this.extend({
+          attributes: {
+            keys: spec
+          }
+        });
       },
 
       transform( transform ) {
@@ -70,24 +111,37 @@ export default function shape( spec ) {
         for ( let key in this.attributes.keys ) {
           spec[ key ] = transform( this.attributes.keys[ key ].transform( transform ) );
         }
-        return shape( spec );
+        return this.extend({
+          attributes: {
+            keys: spec
+          }
+        });
       },
 
       unknown() {
-        var parent = this;
-        return this.extend({
+        var parent = this.transform( schema => {
+          if ( schema.attributes.type === 'shape' ) {
+            return schema.unknown();
+          } else {
+            return schema;
+          }
+        });
+        return parent.extend({
+          attributes: {
+            unknown: true
+          },
           cast( value, options ) {
-            var obj = parent.cast( value, options );
+            var retval = parent.cast.call( this, value, options );
             for ( let key in value ) {
               if ( !this.attributes.keys[ key ] ) {
-                obj[ key ] = value[ key ];
+                retval[ key ] = value[ key ];
               }
             }
-            return obj;
+            return retval;
           },
 
           validate( value, options ) {
-            var result = parent.validate( value, options );
+            var result = parent.validate.call( this, value, options );
             if ( result.value ) {
               for ( let key in value ) {
                 if ( !this.attributes.keys[ key ] ) {
@@ -96,10 +150,6 @@ export default function shape( spec ) {
               }
             }
             return result;
-          },
-
-          transform( transform ) {
-            return parent.transform( transform ).unknown();
           }
         });
       }
