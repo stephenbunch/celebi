@@ -30,7 +30,10 @@ export default function shape( spec ) {
           value = {};
         }
         for ( let key in this.attributes.keys ) {
-          retval[ key ] = this.attributes.keys[ key ].cast( value[ key ] );
+          let val = this.attributes.keys[ key ].cast( value[ key ] );
+          if ( val !== undefined ) {
+            retval[ key ] = val;
+          }
         }
         return retval;
       },
@@ -53,7 +56,9 @@ export default function shape( spec ) {
               break;
             }
           } else {
-            retval[ key ] = result.value;
+            if ( result.value !== undefined ) {
+              retval[ key ] = result.value;
+            }
           }
         }
         if ( errors.length > 0 ) {
