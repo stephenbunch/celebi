@@ -5,11 +5,13 @@ import parse from './parse';
 import transformObject from './transformObject';
 import isSchema from './isSchema';
 import isPlainObject from './_isPlainObject';
+import merge from './merge';
+import transformObjectOutsideIn from './_transformObjectOutsideIn';
 
 export default function shape( spec ) {
   if ( isSchema( spec ) ) {
     if ( spec.attributes.type === 'shape' ) {
-      return shape( spec.keys );
+      return shape( spec.attributes.keys );
     } else {
       throw new Error( 'Argument must be a plain object or a shape schema.' );
     }
@@ -109,6 +111,18 @@ export default function shape( spec ) {
             keys: spec
           }
         });
+      },
+
+      merge( spec ) {
+        spec = transformObjectOutsideIn(
+          shape( spec ),
+          x => x.attributes.type === 'shape' ? x.attributes.keys : x
+        );
+        var self = transformObjectOutsideIn(
+          this,
+          x => x.attributes.type === 'shape' ? x.attributes.keys : x
+        );
+        return shape( merge( self, spec ) );
       },
 
       transform( transform ) {

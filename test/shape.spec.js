@@ -150,4 +150,37 @@ describe( 'shape( spec )', function() {
       });
     });
   });
+
+  describe( 'merge()', function() {
+    it( 'should deeply merge the keys of both shapes', function() {
+      var a = shape({
+        foo: {
+          bar: number
+        },
+        baz: number
+      });
+      var b = a.merge({
+        foo: {
+          qux: number
+        },
+        quux: number
+      });
+      expect( b.cast() ).to.eql({
+        foo: {
+          bar: 0,
+          qux: 0
+        },
+        baz: 0,
+        quux: 0
+      });
+      var c = b.merge({
+        foo: string
+      });
+      expect( c.cast() ).to.eql({
+        foo: '',
+        baz: 0,
+        quux: 0
+      });
+    });
+  });
 });
