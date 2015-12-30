@@ -1,4 +1,4 @@
-import { any } from '../src';
+import { any, shape } from '../src';
 
 describe( 'any', function() {
   describe( 'label( string )', function() {
@@ -37,6 +37,14 @@ describe( 'any', function() {
       expect( schema.cast() ).to.equal( 'foo' );
       expect( schema.cast( null ) ).to.equal( 'foo' );
       expect( schema.cast( false ) ).to.equal( false );
+    });
+  });
+
+  describe( 'optional()', function() {
+    it( 'should return undefined if the value is undefined', function() {
+      var schema = shape({}).optional();
+      expect( schema.cast() ).to.equal( undefined );
+      expect( schema.cast( null ) ).to.eql( {} );
     });
   });
 });

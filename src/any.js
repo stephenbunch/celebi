@@ -63,20 +63,40 @@ export default {
   default( defaultValue ) {
     var parent = this;
     return this.extend({
-      cast( value ) {
+      cast( value, options ) {
         if ( value === null || value === undefined ) {
-          return parent.cast( defaultValue );
+          return parent.cast.call( this, defaultValue, options );
         } else {
-          return parent.cast( value );
+          return parent.cast.call( this, value, options );
         }
       },
-      validate( value ) {
+      validate( value, options ) {
         if ( value === null || value === undefined ) {
-          return parent.validate( defaultValue );
+          return parent.validate.call( this, defaultValue, options );
         } else {
-          return parent.validate( value );
+          return parent.validate.call( this, value, options );
         }
       }
     })
+  },
+
+  optional() {
+    var parent = this;
+    return this.extend({
+      cast( value, options ) {
+        if ( value === undefined ) {
+          return undefined;
+        } else {
+          return parent.cast.call( this, value, options );
+        }
+      },
+      validate( value, options ) {
+        if ( value === undefined ) {
+          return pass( undefined );
+        } else {
+          return parent.validate.call( this, value, options );
+        }
+      }
+    });
   }
 };
