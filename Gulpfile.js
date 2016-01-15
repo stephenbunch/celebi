@@ -36,6 +36,18 @@ gulp.task( 'watch', function() {
   });
 });
 
+gulp.task( 'bundle', function() {
+  return arceus.js.bundle({
+    entry: 'src/index.js',
+    outfile: 'bundle/celebi.js',
+    config: {
+      browserify: {
+        standalone: 'Celebi'
+      }
+    }
+  });
+});
+
 gulp.task( 'default', function() {
-  return arceus.util.gulpAsync( gulp, 'clean', 'make' );
+  return arceus.util.gulpAsync( gulp, 'clean', 'make', 'bundle' );
 });
