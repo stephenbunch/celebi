@@ -1193,7 +1193,9 @@ function shape(_x2) {
               var retval = parent.cast.call(this, value, options);
               for (var key in value) {
                 if (!this.attributes.keys[key]) {
-                  retval[key] = value[key];
+                  if (value[key] !== undefined) {
+                    retval[key] = value[key];
+                  }
                 }
               }
               return retval;
@@ -1204,7 +1206,9 @@ function shape(_x2) {
               if (result.value) {
                 for (var key in value) {
                   if (!this.attributes.keys[key]) {
-                    result.value[key] = value[key];
+                    if (value[key] !== undefined) {
+                      result.value[key] = value[key];
+                    }
                   }
                 }
               }
@@ -1488,4 +1492,4 @@ function vm(schema) {
 module.exports = exports['default'];
 },{"./isSchema":11,"./shape":19,"./transformObject":21}]},{},[10])(10)
 });
-//# sourceMappingURL=celebi.js.map?84c723bfeff1fa961204bc2d0b6be1cedbf8e46d
+//# sourceMappingURL=celebi.js.map?c234f71822eba82ca6c3249b87e60869ab54946d
