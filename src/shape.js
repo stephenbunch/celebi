@@ -153,7 +153,9 @@ export default function shape( spec ) {
             var retval = parent.cast.call( this, value, options );
             for ( let key in value ) {
               if ( !this.attributes.keys[ key ] ) {
-                retval[ key ] = value[ key ];
+                if ( value[ key ] !== undefined ) {
+                  retval[ key ] = value[ key ];
+                }
               }
             }
             return retval;
@@ -164,7 +166,9 @@ export default function shape( spec ) {
             if ( result.value ) {
               for ( let key in value ) {
                 if ( !this.attributes.keys[ key ] ) {
-                  result.value[ key ] = value[ key ];
+                  if ( value[ key ] !== undefined ) {
+                    result.value[ key ] = value[ key ];
+                  }
                 }
               }
             }
