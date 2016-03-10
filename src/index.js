@@ -14,6 +14,7 @@ import parse from './parse';
 import pass from './pass';
 import shape from './shape';
 import string from './string';
+import struct from './struct';
 import transformObject from './transformObject';
 import vm from './vm';
 
@@ -34,6 +35,7 @@ export default {
   pass,
   shape,
   string,
+  struct,
   transformObject,
   vm
 };
