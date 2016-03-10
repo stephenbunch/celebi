@@ -558,6 +558,10 @@ var _string = require('./string');
 
 var _string2 = _interopRequireDefault(_string);
 
+var _struct = require('./struct');
+
+var _struct2 = _interopRequireDefault(_struct);
+
 var _transformObject = require('./transformObject');
 
 var _transformObject2 = _interopRequireDefault(_transformObject);
@@ -583,11 +587,12 @@ exports['default'] = {
   pass: _pass2['default'],
   shape: _shape2['default'],
   string: _string2['default'],
+  struct: _struct2['default'],
   transformObject: _transformObject2['default'],
   vm: _vm2['default']
 };
 module.exports = exports['default'];
-},{"./any":3,"./arrayOf":4,"./boolean":5,"./constant":6,"./date":7,"./fail":8,"./func":9,"./isSchema":11,"./nullableOf":13,"./number":14,"./object":15,"./oneOf":16,"./parse":17,"./pass":18,"./shape":19,"./string":20,"./transformObject":21,"./vm":22}],11:[function(require,module,exports){
+},{"./any":3,"./arrayOf":4,"./boolean":5,"./constant":6,"./date":7,"./fail":8,"./func":9,"./isSchema":11,"./nullableOf":13,"./number":14,"./object":15,"./oneOf":16,"./parse":17,"./pass":18,"./shape":19,"./string":20,"./struct":21,"./transformObject":22,"./vm":23}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -1223,7 +1228,7 @@ function shape(_x2) {
 
 ;
 module.exports = exports['default'];
-},{"./_isPlainObject":1,"./_transformObjectOutsideIn":2,"./any":3,"./fail":8,"./isSchema":11,"./merge":12,"./parse":17,"./pass":18,"./transformObject":21}],20:[function(require,module,exports){
+},{"./_isPlainObject":1,"./_transformObjectOutsideIn":2,"./any":3,"./fail":8,"./isSchema":11,"./merge":12,"./parse":17,"./pass":18,"./transformObject":22}],20:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -1378,6 +1383,29 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _shape = require('./shape');
+
+var _shape2 = _interopRequireDefault(_shape);
+
+exports['default'] = function (spec) {
+  return (0, _shape2['default'])(spec).extend({
+    attributes: {
+      type: 'struct'
+    }
+  });
+};
+
+;
+module.exports = exports['default'];
+},{"./shape":19}],22:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 exports['default'] = transformObject;
@@ -1415,7 +1443,7 @@ function _transformObject(object, replace) {
   }, {}));
 }
 module.exports = exports['default'];
-},{"./_isPlainObject":1}],22:[function(require,module,exports){
+},{"./_isPlainObject":1}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -1490,6 +1518,6 @@ function vm(schema) {
 
 ;
 module.exports = exports['default'];
-},{"./isSchema":11,"./shape":19,"./transformObject":21}]},{},[10])(10)
+},{"./isSchema":11,"./shape":19,"./transformObject":22}]},{},[10])(10)
 });
-//# sourceMappingURL=celebi.js.map?c234f71822eba82ca6c3249b87e60869ab54946d
+//# sourceMappingURL=celebi.js.map?e3278cf29077e30a3e21d5282ea2849c5aab0ba0
