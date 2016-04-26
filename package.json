@@ -17,12 +17,12 @@
   },
   "homepage": "https://github.com/stephenbunch/celebi",
   "devDependencies": {
-    "arceus": "^0.3.4",
-    "babel": "^5.8.23",
-    "gulp": "^3.9.0"
+    "arceus": "^0.5.0",
+    "babel-polyfill": "^6.7.4",
+    "gulp": "^3.9.1"
   },
   "dependencies": {
-    "lodash.assign": "^3.2.0",
-    "lodash.merge": "^3.3.2"
+    "lodash.assign": "^4.0.8",
+    "lodash.merge": "^4.3.5"
   }
 }

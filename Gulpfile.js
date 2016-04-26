@@ -1,6 +1,4 @@
-require( 'babel/register' )({
-  stage: 0
-});
+require( 'babel-polyfill' );
 
 var gulp = require( 'gulp' );
 var arceus = require( 'arceus' );

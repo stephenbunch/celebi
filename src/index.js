@@ -1,41 +1,19 @@
-import any from './any';
-import arrayOf from './arrayOf';
-import boolean from './boolean';
-import constant from './constant';
-import date from './date';
-import fail from './fail';
-import func from './func';
-import isSchema from './isSchema';
-import nullableOf from './nullableOf';
-import number from './number';
-import object from './object';
-import oneOf from './oneOf';
-import parse from './parse';
-import pass from './pass';
-import shape from './shape';
-import string from './string';
-import struct from './struct';
-import transformObject from './transformObject';
-import vm from './vm';
-
-export default {
-  any,
-  arrayOf,
-  boolean,
-  constant,
-  date,
-  fail,
-  func,
-  isSchema,
-  nullableOf,
-  number,
-  object,
-  oneOf,
-  parse,
-  pass,
-  shape,
-  string,
-  struct,
-  transformObject,
-  vm
-};
+export any from './any';
+export arrayOf from './arrayOf';
+export boolean from './boolean';
+export constant from './constant';
+export date from './date';
+export fail from './fail';
+export func from './func';
+export isSchema from './isSchema';
+export nullableOf from './nullableOf';
+export number from './number';
+export object from './object';
+export oneOf from './oneOf';
+export parse from './parse';
+export pass from './pass';
+export shape from './shape';
+export string from './string';
+export struct from './struct';
+export transformObject from './transformObject';
+export vm from './vm';
